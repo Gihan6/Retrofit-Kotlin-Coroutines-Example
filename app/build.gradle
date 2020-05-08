@@ -15,6 +15,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -69,6 +70,8 @@ dependencies {
 
     // Koin for Kotlin apps
     implementation "org.koin:koin-core:$koin_version"
+    implementation "org.koin:koin-core-ext:$koin_version"
+    implementation "org.koin:koin-androidx-ext:$koin_version"
 
     // database
     implementation "android.arch.persistence.room:rxjava2:$rootProject.roomDatabaseVersion"

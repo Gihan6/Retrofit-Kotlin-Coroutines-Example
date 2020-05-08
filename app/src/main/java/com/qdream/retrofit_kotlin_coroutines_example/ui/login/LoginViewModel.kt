@@ -13,7 +13,7 @@ import java.lang.Exception
 
 class LoginViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
-    fun login(userName: String, password: String, context: Context) = liveData(Dispatchers.IO) {
+    fun login(userName: String, password: String) = liveData(Dispatchers.IO) {
 
         if (userName.isEmpty() || password.isEmpty())
             emit(Resource.error(null, "complete data"))
@@ -27,8 +27,7 @@ class LoginViewModel(private val mainRepository: MainRepository) : ViewModel() {
                     emit(
                         Resource.success(
                             saveUserLocal(
-                                response,
-                                context
+                                response
                             )
                         )
                     )
@@ -42,7 +41,7 @@ class LoginViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
     }
 
-    private suspend fun saveUserLocal(response: LoginResponse, context: Context): Boolean {
+    private suspend fun saveUserLocal(response: LoginResponse): Boolean {
         return mainRepository.saveLoginUser(
             User(
                 response.record.id,
@@ -54,7 +53,8 @@ class LoginViewModel(private val mainRepository: MainRepository) : ViewModel() {
                 response.record.groupId,
                 response.record.verified,
                 true
-            ), context
+            )
+
         )
     }
 

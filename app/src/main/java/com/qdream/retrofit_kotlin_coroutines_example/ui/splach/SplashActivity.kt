@@ -3,43 +3,26 @@ package com.qdream.retrofit_kotlin_coroutines_example.ui.splach
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.qdream.retrofit_kotlin_coroutines_example.R
-import com.qdream.retrofit_kotlin_coroutines_example.data.api.ApiHelper
-import com.qdream.retrofit_kotlin_coroutines_example.data.api.RetrofitBuilder
-import com.qdream.retrofit_kotlin_coroutines_example.model.User
 import com.qdream.retrofit_kotlin_coroutines_example.model.User.Companion.loggedUser
-import com.qdream.retrofit_kotlin_coroutines_example.ui.base.ViewModelFactory
 import com.qdream.retrofit_kotlin_coroutines_example.ui.login.LoginActivity
 import com.qdream.retrofit_kotlin_coroutines_example.ui.main.view.MainActivity
-import com.qdream.retrofit_kotlin_coroutines_example.ui.main.viewModel.MainViewModel
 import com.qdream.retrofit_kotlin_coroutines_example.util.Status
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
+import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 
 class SplashActivity : AppCompatActivity() {
     private val activityScope = CoroutineScope(Dispatchers.Main)
-    lateinit var viewModel: SplashViewModel
+    private val viewModel by inject<SplashViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splach)
-
-        setupViewModel()
         showSplash()
-
-
     }
 
-    private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
-        ).get(SplashViewModel::class.java)
-    }
 
     private fun showSplash() {
         activityScope.launch {
@@ -49,7 +32,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkUSer() {
-        viewModel.checkLoggedUser(applicationContext).observe(this, Observer {
+        viewModel.checkLoggedUser().observe(this, Observer {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {

@@ -9,9 +9,9 @@ import kotlinx.coroutines.Dispatchers
 
 class SplashViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
-    fun checkLoggedUser(context: Context) = liveData(Dispatchers.IO) {
+    fun checkLoggedUser() = liveData(Dispatchers.IO) {
         try {
-            emit(Resource.success(mainRepository.checkIfUserLogin(context)))
+            emit(Resource.success(mainRepository.checkIfUserLogin()))
         } catch (exception: Exception) {
             emit(
                 Resource.error(

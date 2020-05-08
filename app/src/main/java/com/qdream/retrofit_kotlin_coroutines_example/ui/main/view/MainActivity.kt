@@ -11,34 +11,30 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.qdream.retrofit_kotlin_coroutines_example.R
 import com.qdream.retrofit_kotlin_coroutines_example.data.api.ApiHelper
 import com.qdream.retrofit_kotlin_coroutines_example.data.api.RetrofitBuilder
+import com.qdream.retrofit_kotlin_coroutines_example.db.DataBase
 import com.qdream.retrofit_kotlin_coroutines_example.model.User
 import com.qdream.retrofit_kotlin_coroutines_example.ui.base.ViewModelFactory
 import com.qdream.retrofit_kotlin_coroutines_example.ui.main.adapter.MainAdapter
 import com.qdream.retrofit_kotlin_coroutines_example.ui.main.viewModel.MainViewModel
+import com.qdream.retrofit_kotlin_coroutines_example.ui.splach.SplashViewModel
 import com.qdream.retrofit_kotlin_coroutines_example.util.Status
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: MainViewModel
+    private val viewModel by inject<MainViewModel>()
     private lateinit var adapter: MainAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setupViewModel()
         setupUI()
         getDataFromServer()
 
     }
 
-
-    private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
-        ).get(MainViewModel::class.java)
-    }
 
     private fun setupUI() {
         recyclerView.layoutManager = LinearLayoutManager(this)

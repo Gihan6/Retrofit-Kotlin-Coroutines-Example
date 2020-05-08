@@ -7,22 +7,27 @@ import com.qdream.retrofit_kotlin_coroutines_example.data.networkModel.request.L
 import com.qdream.retrofit_kotlin_coroutines_example.db.DataBase
 import com.qdream.retrofit_kotlin_coroutines_example.model.User
 import com.qdream.retrofit_kotlin_coroutines_example.model.User.Companion.loggedUser
+import com.qdream.retrofit_kotlin_coroutines_example.ui.main.viewModel.MainViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 
 
-class MainRepository(private val apiHelper: ApiHelper) {
+class MainRepository(private val apiHelper: ApiHelper) : KoinComponent {
+
+    private val dataBase by inject<DataBase>()
+
 
     suspend fun getUsers() = apiHelper.getUsers()
 
     suspend fun loginRepo(request: LoginRequest) = apiHelper.login(request)
 
-    suspend fun saveLoginUser(userLogged: User, context: Context): Boolean {
+    suspend fun saveLoginUser(userLogged: User): Boolean {
         return try {
             withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-                DataBase.getInstance(context).companyDao().insert(userLogged)
+                dataBase.companyDao().insert(userLogged)
             }
             true
         } catch (e: Exception) {
@@ -33,10 +38,10 @@ class MainRepository(private val apiHelper: ApiHelper) {
 
     }
 
-    suspend fun checkIfUserLogin(context: Context): Boolean {
+    suspend fun checkIfUserLogin(): Boolean {
         return try {
             withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-                loggedUser = DataBase.getInstance(context).companyDao().checkIfUserExist()
+                loggedUser = dataBase.companyDao().checkIfUserExist()
             }
             true
         } catch (e: Exception) {

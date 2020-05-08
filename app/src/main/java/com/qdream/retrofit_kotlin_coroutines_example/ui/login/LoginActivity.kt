@@ -16,29 +16,23 @@ import com.qdream.retrofit_kotlin_coroutines_example.ui.main.view.MainActivity
 import com.qdream.retrofit_kotlin_coroutines_example.ui.splach.SplashViewModel
 import com.qdream.retrofit_kotlin_coroutines_example.util.Status
 import kotlinx.android.synthetic.main.activity_login_activirty.*
+import org.koin.android.ext.android.get
+import org.koin.android.ext.android.inject
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var viewModel: LoginViewModel
+    private val viewModel by inject<LoginViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_activirty)
 
         setListener()
-        setupViewModel()
-
     }
 
     private fun setListener() {
         btn_login.setOnClickListener { v -> login(v) }
     }
 
-    private fun setupViewModel() {
-        viewModel = ViewModelProviders.of(
-            this,
-            ViewModelFactory(ApiHelper(RetrofitBuilder.apiService))
-        ).get(LoginViewModel::class.java)
-    }
 
     private fun login(v: View?) {
         loginToServer(et_email.text.toString(), et_password.text.toString())
@@ -46,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loginToServer(userName: String, password: String) {
         showLoading()
-        viewModel.login(userName, password, this).observe(this, Observer {
+        viewModel.login(userName, password).observe(this, Observer {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {
