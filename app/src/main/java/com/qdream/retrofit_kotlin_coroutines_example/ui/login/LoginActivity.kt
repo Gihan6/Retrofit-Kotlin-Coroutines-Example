@@ -6,17 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.qdream.retrofit_kotlin_coroutines_example.R
-import com.qdream.retrofit_kotlin_coroutines_example.data.api.ApiHelper
-import com.qdream.retrofit_kotlin_coroutines_example.data.api.RetrofitBuilder
-import com.qdream.retrofit_kotlin_coroutines_example.model.User
-import com.qdream.retrofit_kotlin_coroutines_example.ui.base.ViewModelFactory
 import com.qdream.retrofit_kotlin_coroutines_example.ui.main.view.MainActivity
-import com.qdream.retrofit_kotlin_coroutines_example.ui.splach.SplashViewModel
 import com.qdream.retrofit_kotlin_coroutines_example.util.Status
 import kotlinx.android.synthetic.main.activity_login_activirty.*
-import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 
 class LoginActivity : AppCompatActivity() {

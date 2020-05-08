@@ -13,7 +13,7 @@ import com.qdream.retrofit_kotlin_coroutines_example.data.api.ApiHelper
 import com.qdream.retrofit_kotlin_coroutines_example.data.api.RetrofitBuilder
 import com.qdream.retrofit_kotlin_coroutines_example.db.DataBase
 import com.qdream.retrofit_kotlin_coroutines_example.model.User
-import com.qdream.retrofit_kotlin_coroutines_example.ui.base.ViewModelFactory
+
 import com.qdream.retrofit_kotlin_coroutines_example.ui.main.adapter.MainAdapter
 import com.qdream.retrofit_kotlin_coroutines_example.ui.main.viewModel.MainViewModel
 import com.qdream.retrofit_kotlin_coroutines_example.ui.splach.SplashViewModel
