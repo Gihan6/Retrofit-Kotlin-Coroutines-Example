@@ -15,25 +15,25 @@ import org.koin.android.ext.android.inject
 class LoginActivity : AppCompatActivity() {
 
     private val viewModel by inject<LoginViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_activirty)
-
+        initListenerForViewModel()
         setListener()
     }
 
     private fun setListener() {
-        btn_login.setOnClickListener { v -> login(v) }
+        btn_login.setOnClickListener { v -> loginToServer(v) }
     }
 
-
-    private fun login(v: View?) {
-        loginToServer(et_email.text.toString(), et_password.text.toString())
-    }
-
-    private fun loginToServer(userName: String, password: String) {
+    private fun loginToServer(v: View?) {
         showLoading()
-        viewModel.login(userName, password).observe(this, Observer {
+        viewModel.loginToServer(et_email.text.toString(), et_password.text.toString())
+    }
+
+    private fun initListenerForViewModel() {
+        viewModel.login().observe(this, Observer {
             it?.let { resource ->
                 when (resource.status) {
                     Status.SUCCESS -> {

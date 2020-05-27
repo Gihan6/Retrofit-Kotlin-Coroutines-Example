@@ -1,25 +1,42 @@
 package com.qdream.retrofit_kotlin_coroutines_example.ui.splach
 
-import android.content.Context
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+
+import androidx.lifecycle.*
 import com.qdream.retrofit_kotlin_coroutines_example.data.repository.MainRepository
+import com.qdream.retrofit_kotlin_coroutines_example.model.User
 import com.qdream.retrofit_kotlin_coroutines_example.util.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SplashViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
-    fun checkLoggedUser() = liveData(Dispatchers.IO) {
-        try {
-            emit(Resource.success(mainRepository.checkIfUserLogin()))
-        } catch (exception: Exception) {
-            emit(
-                Resource.error(
-                    data = null,
-                    message = exception.message ?: "Error Occurred!$exception"
+    private val checkLogin = MutableLiveData<Resource<Boolean>>()
+
+
+    fun checkLoggedUser(): LiveData<Resource<Boolean>> {
+        return checkLogin
+    }
+
+
+    fun checkLoggedUserRequest() {
+        viewModelScope.launch {
+            try {
+                checkLogin.postValue(
+                    Resource.success(
+                        data = mainRepository.checkIfUserLogin()
+                    )
                 )
-            )
+            } catch (exception: Exception) {
+                checkLogin.postValue(
+                    Resource.error(
+                        data = false,
+                        message = exception.message ?: "Error Occurred!$exception"
+                    )
+                )
+            }
         }
+
     }
 
 }
+

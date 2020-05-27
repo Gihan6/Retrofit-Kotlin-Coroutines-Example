@@ -5,21 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.qdream.retrofit_kotlin_coroutines_example.R
-import com.qdream.retrofit_kotlin_coroutines_example.data.api.ApiHelper
-import com.qdream.retrofit_kotlin_coroutines_example.data.api.RetrofitBuilder
-import com.qdream.retrofit_kotlin_coroutines_example.db.DataBase
 import com.qdream.retrofit_kotlin_coroutines_example.model.User
-
 import com.qdream.retrofit_kotlin_coroutines_example.ui.main.adapter.MainAdapter
 import com.qdream.retrofit_kotlin_coroutines_example.ui.main.viewModel.MainViewModel
-import com.qdream.retrofit_kotlin_coroutines_example.ui.splach.SplashViewModel
 import com.qdream.retrofit_kotlin_coroutines_example.util.Status
 import kotlinx.android.synthetic.main.activity_main.*
-import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
@@ -31,10 +24,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setupUI()
+        initListenerForViewModel()
         getDataFromServer()
 
     }
-
 
     private fun setupUI() {
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -49,6 +42,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getDataFromServer() {
+        viewModel.getUsersFromWebServices()
+    }
+
+    private fun initListenerForViewModel() {
         viewModel.getUsers().observe(this, Observer {
             it?.let { resource ->
                 when (resource.status) {

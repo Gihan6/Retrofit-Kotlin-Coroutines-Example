@@ -2,30 +2,30 @@ package com.qdream.retrofit_kotlin_coroutines_example.data.networkModel.response
 
 import com.google.gson.annotations.SerializedName
 
-class LoginResponse(
+data class LoginResponse(
     @SerializedName("Flag")
-     val flag: String,
+    val flag: String,
     @SerializedName("Message")
-     val message: String,
+    val message: String,
     @SerializedName("Record")
-     val record: Record
+    val record: Record
 )
 
-class Record(
+data class Record(
     @SerializedName("Id")
-     val id: String,
+    val id: String,
     @SerializedName("UserName")
-     val userName: String,
+    val userName: String,
     @SerializedName("Name")
-     val name: String,
+    val name: String,
     @SerializedName("Email")
-     val email: String,
+    val email: String,
     @SerializedName("Password")
-     val password: String,
+    val password: String,
     @SerializedName("UserImage")
-     val userImage: String,
+    val userImage: String,
     @SerializedName("GroupId")
-     val groupId: String,
+    val groupId: String,
     @SerializedName("Verified")
-     val verified: String
+    val verified: String
 )

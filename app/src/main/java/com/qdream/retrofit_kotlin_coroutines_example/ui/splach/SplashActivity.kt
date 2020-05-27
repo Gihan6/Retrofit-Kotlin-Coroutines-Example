@@ -10,7 +10,6 @@ import com.qdream.retrofit_kotlin_coroutines_example.ui.login.LoginActivity
 import com.qdream.retrofit_kotlin_coroutines_example.ui.main.view.MainActivity
 import com.qdream.retrofit_kotlin_coroutines_example.util.Status
 import kotlinx.coroutines.*
-import org.koin.android.ext.android.get
 import org.koin.android.ext.android.inject
 
 class SplashActivity : AppCompatActivity() {
@@ -20,6 +19,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splach)
+        initListenerForViewModel()
         showSplash()
     }
 
@@ -32,6 +32,10 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkUSer() {
+        viewModel.checkLoggedUserRequest()
+    }
+
+    private fun initListenerForViewModel() {
         viewModel.checkLoggedUser().observe(this, Observer {
             it?.let { resource ->
                 when (resource.status) {
@@ -49,6 +53,7 @@ class SplashActivity : AppCompatActivity() {
                     Status.LOADING -> {
                     }
                 }
+
             }
         })
     }
